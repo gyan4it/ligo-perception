@@ -4,18 +4,14 @@
 
 **LiGeo-Perception** is a **text-only AI vision engine** that gives language models without image input a trustworthy way to reason about rendered visual output (HTML, SVG, print/PDF, PNG/JPEG) without ever seeing pixels.
 
-The browser renderer acts as a deterministic query engine — it knows ground-truth geometry, colors, fonts, load-state. LiGeo makes the renderer narrate its own geometry over the Chrome DevTools Protocol (CDP), converts that narration into a typed evidence contract, and lets the reasoning model work with structured facts.
-
-This system is designed for the **AI Engineering Book Series** (an 18-book educational production system) and can be used by any project requiring text-only AI analysis of visual content.
-
----
+The browser renderer acts as a deterministic query engine — it knows ground-truth geometry, colors, fonts, load-state. LiGeo makes the renderer narrate its own geometry over the DevTools Protocol, converts that narration into a typed **evidence contract**, and lets the reasoning model work with structured facts.
 
 ## Quick Start
 
 ### Install
 
 ```bash
-cd C:\Users\ASUS\Desktop\LiGeo-Perception
+cd LiGeo-Perception
 pip install -e .
 ```
 
@@ -28,11 +24,8 @@ ligo image.png
 # With JSON output
 ligo image.png --json out.json
 
-# With B01 book profile (1.15cm margins, A4)
-ligo image.png --profile profiles/B01.json --margin-check
-
 # Process entire directory
-ligo books/B01/chapters/C03/assets/figures/ --json out.json
+ligo images/ --json out.json
 ```
 
 ### Python API
@@ -58,18 +51,15 @@ ocr_result = analyze_ocr("image.png")
 
 # Build complete VIR
 vir = build_vir(
-    layout_data={"file": str(img_path), "chapter": "C03", "figure": "F01", "status": "RELEASED", "p10_readiness": "APPROVED AS A PLAN"},
-    page_specification={"block_type": "figure", "usage": "used in content", "objects": [{"type": "diagram", "position": {"x": 2079, "y": 2646}}, {"type": "table", "position": [{"x": 0, "y": 0}]}, {"type": "image", "position": [{"x": 0, "y": 0}, {"x": 2079, "y": 0}]}, {"type": "section", "position": {"x": 0, "y": 0}}]},
-    page_width_mm=210,
-    page_height_mm=297,
-    units="mm"
+    layout_data={"file": str(img_path), "file_id": "img_001", "width": 1920, "height": 1080},
+    pixel_data={"file": str(img_path), "metrics": metrics, "issues": []},
+    ocr_data={"file": str(img_path), "ocr": ocr_result, "issues": []},
+    asset_id="asset-001",
+    project_profile="generic",
 )
-vir = build_vir(vir)
-print(f"Competency: {vir['competency']}, Bloom: {vir['bloom']}")
-print(f"Quality Gate: {vir['quality_gate']}, Status: {vir['status']}")
 
 # APAI assessment
-apai_result = apai_bitmap.run(vir_path="out/vir.json", rubric="default")
+apai_result = apai_run(vir_path="out/vir.json", rubric="default")
 ```
 
 ## Command Reference
@@ -78,8 +68,8 @@ apai_result = apai_bitmap.run(vir_path="out/vir.json", rubric="default")
 |---------|-------------|
 | `ligo <file.png>` | Analyze single image |
 | `ligo images/ --json out.json` | Batch process directory |
-| `ligo file.png --profile profiles/B01.json --margin-check` | Chapter-specific margin check |
-| `ligo --profile profiles/B01.json` | Use B01 book profile (A4, 1.15cm margins) |
+| `ligo file.png --profile profiles/generic.json --margin-check` | Project profile margin check |
+| `ligo --profile profiles/generic.json` | Use generic page profile (A4, 1.15cm margins) |
 
 ## Output Structure
 
@@ -87,7 +77,7 @@ Every probe returns a typed JSON envelope:
 
 ```json
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.0",
   "target": "web/posters/poster-2.html",
   "probe": "layout_probe.js",
   "root": {"x": 0, "y": 0, "w": 2079, "h": 2646},
@@ -116,13 +106,13 @@ Every probe returns a typed JSON envelope:
 
 ## Project Profiles
 
-Profiles declare per-project expectations so B01 values do not leak into other projects:
+Profiles declare per-project expectations:
 
 ```json
 {
   "profile_schema_version": "1.0.0",
-  "profile_id": "B01",
-  "profile_name": "B01 — Foundations of AI Engineering",
+  "profile_id": "generic",
+  "profile_name": "Generic Document Profile",
   "page": {
     "size": {"width_cm": 21.0, "height_cm": 29.7, "name": "A4"},
     "orientation": "portrait",
@@ -130,12 +120,12 @@ Profiles declare per-project expectations so B01 values do not leak into other p
     "margin_tolerance_mm": 0.5
   },
   "checks": {"layout": true, "print": true, "margin": true, "accessibility": true},
-  "rubric": {"rubric_id": "APAI-B01-ILLUSTRATION-001", "rubric_version": "1.0.0"},
+  "rubric": {"rubric_id": "APAI-ILLUSTRATION-001", "rubric_version": "1.0.0"},
   "gates": {"l3_requires_human_review": true}
 }
 ```
 
-Use with: `ligo image.png --profile profiles/B01.json --margin-check`
+Use with: `ligo image.png --profile profiles/generic.json --margin-check`
 
 ## Requirements
 
@@ -156,12 +146,12 @@ Use with: `ligo image.png --profile profiles/B01.json --margin-check`
 
 ```
 LiGeo-Perception/
-├── ligo_perception/            # Core Python package
+├── ligo_perception/          # Core Python package
 │   ├── __init__.py
-│   └── cli.py                  # CLI entry point
-├── tools/                      # 42 production tools
-│   ├── cdp_runner.py           # CDP browser transport
-│   ├── layout_check.py         | Geometry probes over files/dirs
+│   └── cli.py                # CLI entry point
+├── tools/                    # Production tools
+│   ├── cdp_runner.py         # CDP browser transport
+│   ├── layout_check.py       | Geometry probes over files/dirs
 │   ├── a11y_check.py         | axe-core WCAG + focus probe |
 │   ├── print_check.py        | printToPDF size/page-count assertions |
 │   ├── pdf_check.py          | PDF pages/paper size |
@@ -180,8 +170,7 @@ LiGeo-Perception/
 |   | image_probe.js       | Rendered image probing |
 |   | page_margin_probe.js | CSS @page margin inspection |
 | profiles/           | Project profiles |
-|   ├── B01.json         | B01 book profile (A4, 1.15cm margins) |
-|   | generic.json         | Generic document profile |
+|   ├── generic.json         | Generic document profile |
 | tests/              | Test suite |
 |   ├── test_cv_core.py              | cv_core tests |
 |   | test_bitmap_check.py      | bitmap_check tests |
@@ -251,24 +240,6 @@ LiGeo-Perception/
 | README.md           | This file |
 | .gitignore          | Git ignore |
 ```
-
----
-
-## License
-
-MIT License
-
-## Relationship With AI Engineering Book Series
-
-This system is designed around **B01 — Foundations of AI Engineering**, the first book in the 18-book AI Engineering Book Series. It is designed around the intended progression:
-
-**AI User → AI Problem Solver → AI Product Builder → AI System Builder → AI Engineer → AI Researcher**
-
-and the progression:
-
-**Problem → Requirement → Research → Feasibility → System Design → Data → AI → Agent → Build → Test → Evaluate → Secure → Deploy → Monitor → Improve → Research**
-
-A local improvement must not damage the larger curriculum architecture.
 
 ---
 

@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 setup(
     name="ligo-perception",
     version="1.0.0",
-    author="AI Engineering Book Series",
+    author="LiGeo Perception",
     description="Text-only AI vision engine for rendered visual evidence",
     long_description=long_description,
     long_description_content_type="text/markdown",
