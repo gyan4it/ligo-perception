@@ -1,0 +1,1 @@
+try{var k7jsmem={url:window.location.href};k7jsmem.et="bJSLoad",void 0==window.jsmem_k7srdom?k7jsmem.load=1:k7jsmem.load=2,chrome.runtime.sendMessage(k7jsmem)}catch(e){}

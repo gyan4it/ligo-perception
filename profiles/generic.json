@@ -1,0 +1,29 @@
+{
+  "profile_schema_version": "1.0.0",
+  "profile_id": "generic",
+  "profile_name": "Generic Document Profile",
+  "project": "generic",
+  "description": "Default profile for generic document production — A4 portrait with standard margins.",
+  "inputs": ["html", "svg"],
+  "page": {
+    "size": {"width_cm": 21.0, "height_cm": 29.7, "name": "A4"},
+    "orientation": "portrait",
+    "margins": {
+      "top": "1.5cm",
+      "right": "1.5cm",
+      "bottom": "1.5cm",
+      "left": "1.5cm"
+    },
+    "margin_tolerance_mm": 0.5
+  },
+  "checks": {
+    "layout": true,
+    "print": true,
+    "margin": true,
+    "accessibility": true
+  },
+  "rubric": null,
+  "gates": {
+    "l3_requires_human_review": true
+  }
+}

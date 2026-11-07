@@ -1,0 +1,33 @@
+{
+  "profile_schema_version": "1.0.0",
+  "profile_id": "B01",
+  "profile_name": "B01 — Foundations of AI Engineering",
+  "project": "AI Engineering Book Series",
+  "description": "B01 book profile — A4 portrait pages with 1.15cm margins, textbook illustration rubric.",
+  "inputs": ["html", "svg"],
+  "page": {
+    "size": {"width_cm": 21.0, "height_cm": 29.7, "name": "A4"},
+    "orientation": "portrait",
+    "margins": {
+      "top": "1.15cm",
+      "right": "1.15cm",
+      "bottom": "1.15cm",
+      "left": "1.15cm"
+    },
+    "margin_tolerance_mm": 0.5
+  },
+  "checks": {
+    "layout": true,
+    "print": true,
+    "margin": true,
+    "accessibility": true
+  },
+  "rubric": {
+    "rubric_id": "APAI-B01-ILLUSTRATION-001",
+    "rubric_name": "B01 Textbook Illustration Quality",
+    "rubric_version": "1.0.0"
+  },
+  "gates": {
+    "l3_requires_human_review": true
+  }
+}

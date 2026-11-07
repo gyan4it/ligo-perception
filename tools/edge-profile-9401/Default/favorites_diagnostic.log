@@ -1,0 +1,40 @@
+2026-11-04 17:23:50.647: [INFO] CurrentProfilePath: C:\xampp\htdocs\AI Engineering Book Series 2026\lightweight-geometric-perception-system-master\lightweight-geometric-perception-system-master\tools\edge-profile-9401\Default
+2026-11-04 17:23:50.647: [INFO] Profiles total count: 1
+2026-11-04 17:23:50.647: [INFO] Profile: name=Profile 1 path=C:\xampp\htdocs\AI Engineering Book Series 2026\lightweight-geometric-perception-system-master\lightweight-geometric-perception-system-master\tools\edge-profile-9401\Default lastActive=null
+2026-11-04 17:23:50.647: [INFO] LastUsedProfileDir: C:\xampp\htdocs\AI Engineering Book Series 2026\lightweight-geometric-perception-system-master\lightweight-geometric-perception-system-master\tools\edge-profile-9401\Default
+2026-11-04 17:23:50.647: [INFO] VisibilityChanged: 0
+2026-11-04 17:23:50.666: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.666: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.667: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.668: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.668: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.669: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.670: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.670: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.671: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.672: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:50.725: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:50.726: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:50.726: [INFO] OnDoneLoading sync enabled: 0
+2026-11-04 17:23:50.726: [INFO] BookmarkModelLoaded, ids_reassigned: 0
+2026-11-04 17:23:50.726: [INFO] BookmarksLoadDropped droppedNodes=0
+2026-11-04 17:23:50.726: [INFO] BookmarksSnapshot Startup total=2 bar=2 other=0 mobile=0 showBar=0 showBarNTP=1
+2026-11-04 17:23:50.910: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:52.017: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 0
+2026-11-04 17:23:52.021: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-11-04 17:23:52.023: [INFO] Primary account changed.
+2026-11-04 17:23:52.023: [INFO] OnPrimaryAccountChanged PrimaryAccountChangeEvent::Type::kSet
+2026-11-04 17:23:52.033: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-11-04 17:23:52.075: [INFO] RecordSyncInitDuration has_sync_been_enabled: 0 state: 3
+2026-11-04 17:23:54.797: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.797: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.797: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.797: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.797: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.798: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.798: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.798: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.798: [INFO] BookmarkNodeAdded, ABU: 0
+2026-11-04 17:23:54.806: [INFO] BookmarkBarPrefChanged showBar=0 showBarNTP=0
+2026-11-04 17:23:54.834: [INFO] VisibilityChanged: 1
+2026-11-04 17:23:56.069: [INFO] Sync initialization duration: 3884ms

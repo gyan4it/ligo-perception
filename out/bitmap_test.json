@@ -1,0 +1,25 @@
+[
+  {
+    "file": "C:\\Users\\ASUS\\Desktop\\image1.png",
+    "record": {
+      "asset_id": "img:8ac9464f963dfa83",
+      "path": "C:\\Users\\ASUS\\Desktop\\image1.png",
+      "format": "PNG",
+      "width": 1122,
+      "height": 1402,
+      "aspect_ratio": 0.800285,
+      "mode": "RGB",
+      "has_alpha": false,
+      "total_pixels": 1573044,
+      "file_size_bytes": 2188236,
+      "file_size_mb": 2.0869,
+      "exif_orientation": true,
+      "icc_profile_present": false,
+      "resize": null,
+      "orientation_normalized": true,
+      "valid": true,
+      "metadata": {}
+    },
+    "issues": []
+  }
+]

@@ -1,0 +1,387 @@
+[
+  {
+    "file": "C:\\Users\\ASUS\\Desktop\\image1.png",
+    "metrics": {
+      "path": "C:\\Users\\ASUS\\Desktop\\image1.png",
+      "metrics_version": "1.0.0",
+      "pillow_version": "12.2.0",
+      "numpy_version": "2.4.4",
+      "dimensions": {
+        "width": 1122,
+        "height": 1402,
+        "aspect_ratio": 0.800285,
+        "orientation": "portrait",
+        "method": "Pillow Image.size (via cv_core)",
+        "version": "12.2.0",
+        "interpretation": "Geometric dimensions of the raster image",
+        "limitations": "Does not indicate semantic content or display size"
+      },
+      "color": {
+        "mode": "RGB",
+        "has_alpha": false,
+        "method": "Pillow Image.mode (via cv_core)",
+        "version": "12.2.0",
+        "interpretation": "Color space and transparency presence",
+        "limitations": "Mode indicates encoding, not semantic color usage"
+      },
+      "palette": {
+        "dominant_colors": [
+          {
+            "hex": "#e0e0e0",
+            "pct": 9.74,
+            "bucket_r": 7,
+            "bucket_g": 7,
+            "bucket_b": 7
+          },
+          {
+            "hex": "#e0c0e0",
+            "pct": 8.54,
+            "bucket_r": 7,
+            "bucket_g": 6,
+            "bucket_b": 7
+          },
+          {
+            "hex": "#60a0e0",
+            "pct": 6.25,
+            "bucket_r": 3,
+            "bucket_g": 5,
+            "bucket_b": 7
+          },
+          {
+            "hex": "#802000",
+            "pct": 5.96,
+            "bucket_r": 4,
+            "bucket_g": 1,
+            "bucket_b": 0
+          },
+          {
+            "hex": "#000000",
+            "pct": 5.0,
+            "bucket_r": 0,
+            "bucket_g": 0,
+            "bucket_b": 0
+          },
+          {
+            "hex": "#a0c0e0",
+            "pct": 3.34,
+            "bucket_r": 5,
+            "bucket_g": 6,
+            "bucket_b": 7
+          },
+          {
+            "hex": "#80c0e0",
+            "pct": 2.93,
+            "bucket_r": 4,
+            "bucket_g": 6,
+            "bucket_b": 7
+          },
+          {
+            "hex": "#202020",
+            "pct": 2.42,
+            "bucket_r": 1,
+            "bucket_g": 1,
+            "bucket_b": 1
+          }
+        ],
+        "unique_buckets": 162,
+        "method": "Pillow resize + NumPy histogram, 3 bits/channel bucketing",
+        "version": "Pillow 12.2.0, NumPy 2.4.4",
+        "interpretation": "Approximate color distribution; bucketed, not exact",
+        "limitations": "3-bit quantization loses fine color detail; 64x64 downsample loses spatial info"
+      },
+      "histogram": {
+        "r": {
+          "bin_counts": [
+            294616,
+            72735,
+            58909,
+            45356,
+            33272,
+            27583,
+            33471,
+            46114,
+            33757,
+            18355,
+            22428,
+            32245,
+            55461,
+            80158,
+            206368,
+            512216
+          ],
+          "bin_edges": [
+            0,
+            16,
+            32,
+            48,
+            64,
+            80,
+            96,
+            112,
+            128,
+            144,
+            160,
+            176,
+            192,
+            208,
+            224,
+            240,
+            256
+          ],
+          "method": "NumPy histogram, 16 bins, range 0-255",
+          "version": "2.4.4",
+          "interpretation": "Tonal distribution per color channel",
+          "limitations": "16-bin histogram is coarse; not color-accurate for gradients"
+        },
+        "g": {
+          "bin_counts": [
+            101452,
+            102489,
+            167434,
+            68035,
+            31365,
+            42064,
+            47301,
+            64339,
+            68212,
+            88957,
+            132460,
+            137880,
+            102673,
+            177722,
+            208705,
+            31956
+          ],
+          "bin_edges": [
+            0,
+            16,
+            32,
+            48,
+            64,
+            80,
+            96,
+            112,
+            128,
+            144,
+            160,
+            176,
+            192,
+            208,
+            224,
+            240,
+            256
+          ],
+          "method": "NumPy histogram, 16 bins, range 0-255",
+          "version": "2.4.4",
+          "interpretation": "Tonal distribution per color channel",
+          "limitations": "16-bin histogram is coarse; not color-accurate for gradients"
+        },
+        "b": {
+          "bin_counts": [
+            109023,
+            68371,
+            48043,
+            51151,
+            66808,
+            94559,
+            111396,
+            150287,
+            126916,
+            131950,
+            84520,
+            66260,
+            63167,
+            50405,
+            111784,
+            238404
+          ],
+          "bin_edges": [
+            0,
+            16,
+            32,
+            48,
+            64,
+            80,
+            96,
+            112,
+            128,
+            144,
+            160,
+            176,
+            192,
+            208,
+            224,
+            240,
+            256
+          ],
+          "method": "NumPy histogram, 16 bins, range 0-255",
+          "version": "2.4.4",
+          "interpretation": "Tonal distribution per color channel",
+          "limitations": "16-bin histogram is coarse; not color-accurate for gradients"
+        }
+      },
+      "luminance": {
+        "mean": 0.5556,
+        "std": 0.3144,
+        "min": 0.0,
+        "max": 1.0,
+        "median": 0.6579,
+        "pct_dark": 31.0,
+        "pct_mid": 19.17,
+        "pct_bright": 49.84,
+        "method": "ITU-R BT.709 relative luminance, NumPy",
+        "version": "2.4.4",
+        "interpretation": "Overall brightness distribution; not semantic mood",
+        "limitations": "Global luminance; does not indicate local contrast or mood"
+      },
+      "contrast": {
+        "michelson": 1.0,
+        "rms": 0.3144,
+        "luminance_range": 1.0,
+        "method": "Michelson + RMS contrast from BT.709 luminance",
+        "version": "2.4.4",
+        "interpretation": "Global contrast range; not WCAG contrast ratio",
+        "limitations": "Global measure; local contrast variations not captured"
+      },
+      "edges": {
+        "mean_gradient": 0.0244,
+        "max_gradient": 0.7284,
+        "edge_pixel_pct": 5.61,
+        "edge_threshold": 0.1,
+        "method": "NumPy gradient (Sobel-like), gradient magnitude > 0.1",
+        "version": "2.4.4",
+        "interpretation": "Edge presence and strength; not object boundaries",
+        "limitations": "Simple gradient; not Canny or semantic edge detection"
+      },
+      "sharpness": {
+        "laplacian_variance": 0.0135,
+        "sharpness_class": "soft",
+        "method": "Laplacian variance on BT.709 luminance",
+        "version": "2.4.4",
+        "interpretation": "Higher variance = sharper edges; not focus quality",
+        "limitations": "Global measure; local blur variations not captured"
+      },
+      "regions": {
+        "grid": 4,
+        "patches": [
+          {
+            "gi": 0,
+            "gj": 0,
+            "mean_lum": 0.6599,
+            "std_lum": 0.1542
+          },
+          {
+            "gi": 0,
+            "gj": 1,
+            "mean_lum": 0.5665,
+            "std_lum": 0.2795
+          },
+          {
+            "gi": 0,
+            "gj": 2,
+            "mean_lum": 0.465,
+            "std_lum": 0.2901
+          },
+          {
+            "gi": 0,
+            "gj": 3,
+            "mean_lum": 0.5055,
+            "std_lum": 0.2082
+          },
+          {
+            "gi": 1,
+            "gj": 0,
+            "mean_lum": 0.4484,
+            "std_lum": 0.2956
+          },
+          {
+            "gi": 1,
+            "gj": 1,
+            "mean_lum": 0.6626,
+            "std_lum": 0.2848
+          },
+          {
+            "gi": 1,
+            "gj": 2,
+            "mean_lum": 0.6123,
+            "std_lum": 0.3054
+          },
+          {
+            "gi": 1,
+            "gj": 3,
+            "mean_lum": 0.4347,
+            "std_lum": 0.3305
+          },
+          {
+            "gi": 2,
+            "gj": 0,
+            "mean_lum": 0.5817,
+            "std_lum": 0.3456
+          },
+          {
+            "gi": 2,
+            "gj": 1,
+            "mean_lum": 0.5234,
+            "std_lum": 0.3057
+          },
+          {
+            "gi": 2,
+            "gj": 2,
+            "mean_lum": 0.6867,
+            "std_lum": 0.278
+          },
+          {
+            "gi": 2,
+            "gj": 3,
+            "mean_lum": 0.5219,
+            "std_lum": 0.3519
+          },
+          {
+            "gi": 3,
+            "gj": 0,
+            "mean_lum": 0.7716,
+            "std_lum": 0.2643
+          },
+          {
+            "gi": 3,
+            "gj": 1,
+            "mean_lum": 0.4656,
+            "std_lum": 0.3459
+          },
+          {
+            "gi": 3,
+            "gj": 2,
+            "mean_lum": 0.5226,
+            "std_lum": 0.3315
+          },
+          {
+            "gi": 3,
+            "gj": 3,
+            "mean_lum": 0.4558,
+            "std_lum": 0.3434
+          }
+        ],
+        "method": "4x4 grid, mean/std luminance per patch",
+        "version": "2.4.4",
+        "interpretation": "Spatial luminance distribution; not object regions",
+        "limitations": "Fixed grid; not content-aware regions"
+      },
+      "alpha": {
+        "has_alpha": false,
+        "method": "Pillow Image.mode check (via cv_core)",
+        "version": "12.2.0",
+        "interpretation": "Whether image has transparency channel",
+        "limitations": "Presence only; alpha distribution not computed"
+      },
+      "method_tier": "DETECTED",
+      "evidence_tier_note": "All metrics are DETECTED measurements from pixel data; no semantic interpretation or model inference involved"
+    },
+    "issues": [
+      {
+        "t": "PIXEL-SOFT",
+        "det": "low sharpness (Laplacian var 0.0135)",
+        "conf": 0.7
+      }
+    ]
+  }
+]

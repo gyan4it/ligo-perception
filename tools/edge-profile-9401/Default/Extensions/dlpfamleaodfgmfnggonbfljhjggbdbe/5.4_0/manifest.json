@@ -1,0 +1,26 @@
+{
+   "action": {
+      "default_icon": "images/K7Logo.png",
+      "default_title": "K7 Webprotection"
+   },
+   "author": "K7Computing",
+   "background": {
+      "service_worker": "background.js"
+   },
+   "description": "Protect yourself from malicious websites and experience safe browsing",
+   "host_permissions": [ "http://*/*", "https://*/*" ],
+   "icons": {
+      "48": "images/K7Logo_48.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt2ZieK4CcbO3WKoJu7RU8LhELXGyBUph9za3HgCbw10H+b3TftpR0IoWBYWocyzbFaxJZAtcbgPdX0tnLkdNwQ0/fb6+yUX6JwfbFkpG2gogLk73VLskP4FmPqZHea0QWnJ5M0iphgZilGHukXpizWx1Pun8IGlzGoLOV+35QIQIDAQAB",
+   "manifest_version": 3,
+   "name": "K7 Webprotection",
+   "permissions": [ "scripting", "tabs", "nativeMessaging" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "5.4",
+   "web_accessible_resources": [ {
+      "extension_ids": [  ],
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "images/*.png", "images/*.gif" ]
+   } ]
+}
