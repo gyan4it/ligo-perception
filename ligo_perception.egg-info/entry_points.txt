@@ -1,0 +1,3 @@
+[console_scripts]
+ligo = ligo_perception.cli:main
+ligo-perception = ligo_perception.cli:main

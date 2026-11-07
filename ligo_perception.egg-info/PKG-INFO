@@ -1,0 +1,276 @@
+Metadata-Version: 2.4
+Name: ligo-perception
+Version: 1.0.0
+Summary: Text-only AI vision engine for rendered visual evidence
+Home-page: https://github.com/gyan4it/ligo-perception
+Author: LiGeo Perception
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: Pillow>=9.0.0
+Requires-Dist: numpy>=1.24.0
+Provides-Extra: opencv
+Requires-Dist: opencv-python>=4.5.0; extra == "opencv"
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: provides-extra
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+﻿# LiGeo Perception System - Global Vision Skill
+
+## Overview
+
+**LiGeo-Perception** is a **text-only AI vision engine** that gives language models without image input a trustworthy way to reason about rendered visual output (HTML, SVG, print/PDF, PNG/JPEG) without ever seeing pixels.
+
+The browser renderer acts as a deterministic query engine — it knows ground-truth geometry, colors, fonts, load-state. LiGeo makes the renderer narrate its own geometry over the DevTools Protocol, converts that narration into a typed **evidence contract**, and lets the reasoning model work with structured facts.
+
+## Quick Start
+
+### Install
+
+```bash
+cd LiGeo-Perception
+pip install -e .
+```
+
+### Single Image Analysis
+
+```bash
+# Basic analysis
+ligo image.png
+
+# With JSON output
+ligo image.png --json out.json
+
+# Process entire directory
+ligo images/ --json out.json
+```
+
+### Python API
+
+```python
+from ligo_perception import load_image, load_and_validate, analyze_color, analyze_pixels
+from vir_builder import build_vir
+from apai_bitmap import run as apai_run
+
+# Load and validate an image
+with load_image("image.png") as li:
+    info = li.info  # metadata dict
+    img = li.image   # PIL Image object (use within context)
+
+# Get metadata only (no image in memory)
+record, issues = load_and_validate("image.png")
+
+# Analyze pixel metrics
+metrics = analyze_pixels("image.png")
+
+# Run OCR
+ocr_result = analyze_ocr("image.png")
+
+# Build complete VIR
+vir = build_vir(
+    layout_data={"file": str(img_path), "file_id": "img_001", "width": 1920, "height": 1080},
+    pixel_data={"file": str(img_path), "metrics": metrics, "issues": []},
+    ocr_data={"file": str(img_path), "ocr": ocr_result, "issues": []},
+    asset_id="asset-001",
+    project_profile="generic",
+)
+
+# APAI assessment
+apai_result = apai_run(vir_path="out/vir.json", rubric="default")
+```
+
+## Command Reference
+
+| Command | Description |
+|---------|-------------|
+| `ligo <file.png>` | Analyze single image |
+| `ligo images/ --json out.json` | Batch process directory |
+| `ligo file.png --profile profiles/generic.json --margin-check` | Project profile margin check |
+| `ligo --profile profiles/generic.json` | Use generic page profile (A4, 1.15cm margins) |
+
+## Output Structure
+
+Every probe returns a typed JSON envelope:
+
+```json
+{
+  "schema_version": "1.0",
+  "target": "web/posters/poster-2.html",
+  "probe": "layout_probe.js",
+  "root": {"x": 0, "y": 0, "w": 2079, "h": 2646},
+  "issues": [
+    {"t": "OVERFLOW", "det": "content clipped: scrollH=3106 > clientH=2646", "rect": {}, "conf": 0.95}
+  ]
+}
+```
+
+## Evidence Tiers
+
+| Tier | Meaning | Usage |
+|------|---------|-------|
+| **DETECTED** | Direct measurement from renderer/pixel/OCR | Ground truth |
+| **DERIVED** | Arithmetic on evidence | Requires re-measurement after edits |
+| **INTERPRETED** | Model hypothesis — human verification required | Must be re-measured |
+
+## Confidence Bands
+
+| Range | Band | How to Use |
+|-------|------|------------|
+| 0.90–1.00 | HIGH | Act on it directly |
+| 0.70–0.89 | MEDIUM | Act with quick confirmation |
+| 0.50–0.69 | LOW | Mention; corroborate before acting |
+| 0.00–0.49 | UNCERTAIN | Never a factual claim |
+
+## Project Profiles
+
+Profiles declare per-project expectations:
+
+```json
+{
+  "profile_schema_version": "1.0.0",
+  "profile_id": "generic",
+  "profile_name": "Generic Document Profile",
+  "page": {
+    "size": {"width_cm": 21.0, "height_cm": 29.7, "name": "A4"},
+    "orientation": "portrait",
+    "margins": {"top": "1.15cm", "right": "1.15cm", "bottom": "1.15cm", "left": "1.15cm"},
+    "margin_tolerance_mm": 0.5
+  },
+  "checks": {"layout": true, "print": true, "margin": true, "accessibility": true},
+  "rubric": {"rubric_id": "APAI-ILLUSTRATION-001", "rubric_version": "1.0.0"},
+  "gates": {"l3_requires_human_review": true}
+}
+```
+
+Use with: `ligo image.png --profile profiles/generic.json --margin-check`
+
+## Requirements
+
+- Python 3.8+
+- Pillow >= 9.0.0
+- NumPy >= 1.24.0
+- OpenCV (optional, for advanced sensors)
+- Tesseract (optional, for OCR)
+- PyMuPDF (optional, for PDF text extraction)
+
+## Critical Limitation
+
+**This is a text-only AI vision system.** It cannot read images directly. LiGeo works with renderer-accessible content (HTML, SVG, print/PDF) via CDP automation, and bitmap images via deterministic pixel analysis. It cannot perform semantic vision (object recognition, scene understanding, aesthetic judgment) without a separate VLM.
+
+**For semantic vision:** Configure a remote VLM endpoint or install a local VLM library via `tools/vision_adapter.py`.
+
+## File Structure
+
+```
+LiGeo-Perception/
+├── ligo_perception/          # Core Python package
+│   ├── __init__.py
+│   └── cli.py                # CLI entry point
+├── tools/                    # Production tools
+│   ├── cdp_runner.py         # CDP browser transport
+│   ├── layout_check.py       | Geometry probes over files/dirs
+│   ├── a11y_check.py         | axe-core WCAG + focus probe |
+│   ├── print_check.py        | printToPDF size/page-count assertions |
+│   ├── pdf_check.py          | PDF pages/paper size |
+|   | bitmap_check.py        | PNG/JPEG loader + validation |
+|   | pixel_check.py       | Deterministic pixel metrics (10 categories) |
+|   | ocr_adapter.py         | Tesseract OCR adapter |
+|   | vision_adapter.py      | Pluggable VLM interface |
+|   | capability_detector.py | Capability reporting |
+|   | vir_builder.py       | VIR builder |
+|   | apai_bitmap.py     | APAI rubric-based art/illustration evaluation |
+|   | profile_loader.py | Shared profile loading |
+|   | README.md            | Tools documentation |
+├── probes/             | JavaScript probes for CDP |
+│   ├── layout_probe.js      | Layout geometry probes |
+│   ├── svg_probe.js       | SVG canvas clipping, text collisions |
+|   | image_probe.js       | Rendered image probing |
+|   | page_margin_probe.js | CSS @page margin inspection |
+| profiles/           | Project profiles |
+|   ├── generic.json         | Generic document profile |
+| tests/              | Test suite |
+|   ├── test_cv_core.py              | cv_core tests |
+|   | test_bitmap_check.py      | bitmap_check tests |
+|   | test_pixel_check.py        | pixel_check tests |
+|   | test_ocr_adapter.py         | ocr_adapter tests |
+|   | test_color_sensor.py     | color_sensor tests |
+|   | test_edge_sensor.py       | edge_sensor tests |
+|   | test_quality_sensor.py    | quality_sensor tests |
+|   | test_geometry_sensor.py   | geometry_sensor tests |
+|   | test_similarity_sensor.py   | similarity_sensor tests |
+|   | test_registration_sensor.py | registration_sensor tests |
+|   | test_region_sensor.py       | region_sensor tests |
+|   | test_document_sensor.py   | document_sensor tests |
+|   | test_diagram_sensor.py    | diagram_sensor tests |
+|   | test_illustration_sensor.py | illustration_sensor tests |
+|   | test_pdf_text_adapter.py   | pdf_text_adapter tests |
+|   | test_vir_builder.py       | vir_builder tests |
+|   | test_integration.py   | Integration tests |
+| fixtures/           | Test assets |
+|   ├── clean.png           | Clean image (white background) |
+|   | line_art.png         | Line art for edge detection |
+|   | low_contrast.png        | Low contrast image |
+|   | rotated.png             | Rotated content |
+|   | text_image.png          | Text image for OCR |
+|   | text_heavy.png          | Multiple text lines |
+|   | duplicate_pair_1.png    | Duplicate pair 1 |
+|   | duplicate_pair_2.png    | Duplicate pair 2 |
+|   | scanned_page.png        | Scanned page |
+|   | violations.png          | Violation image |
+| docs/             | Documentation |
+|   ├── AGENTS.md                        | Repository operating rules |
+|   | PROJECT_STATE.md           | Current state |
+|   | PROMPT_SYSTEM_SPECIFICATION.md   | Prompt execution protocol |
+|   | TECHSPEC.md           | Technology specification |
+|   | DESIGN.md           | Design document |
+|   | SCHEME.md           | Editorial scheme |
+|   | CURRICULUM_MASTER.md           | Curriculum master |
+|   | BOOK_PRODUCTION_SPEC.md           | Book production spec |
+|   | BOOK_ARCHITECTURE_REGISTRY.md           | Book architecture registry |
+|   | MASTER_STANDARDS_REGISTRY.md           | Master standards registry |
+|   | TECHNOLOGY_SPECIFICATION_REGISTRY.md           | Technology spec registry |
+|   | RISKS.md           | Risk register |
+|   | ISSUES.md           | Issue register |
+|   | ROADMAP.md           | Project roadmap |
+|   | MILESTONES.md           | Milestones |
+|   | TRACKER.md           | Project tracker |
+|   | TRACEABILITY_MATRIX.md           | Traceability matrix |
+|   | SOURCE_REJECTION_LOG.md           | Source rejection log |
+|   | ORIGINALITY_POLICY.md           | Originality policy |
+|   | CITATION_POLICY.md           | Citation policy |
+|   | EDITORIAL_RULES.md           | Editorial rules |
+|   | CONTENT_RULES.md           | Content rules |
+|   | VISUAL_RULES.md           | Visual rules |
+|   | ASSESSMENT_RULES.md           | Assessment rules |
+|   | RESEARCH_RULES.md           | Research rules |
+|   | KDP_RULES.md           | KDP production rules |
+|   | RULES.md           | General rules |
+|   | ROLLBACK_PROTOCOL.md           | Rollback protocol |
+|   | AI_RECOVERY_PROTOCOL.md           | AI recovery protocol |
+|   | AI_ESCALATION_RULES.md           | AI escalation rules |
+|   | AI_LIMITATIONS.md           | AI limitations |
+|   | nextstep290926.md           | Next step notes |
+|   | STEP_05_VALIDATION_RERUN.md           | Step 05 validation rerun |
+|   | STALE_STATE_CCP-005_PROPOSAL.md           | Stale state CCP-005 |
+|   | RECORD_CONFORMANCE_CCP-004_PROPOSAL.md           | Record conformance CCP-004 |
+| setup.py            | Package setup |
+| README.md           | This file |
+| .gitignore          | Git ignore |
+```
+
+---
+
+## License
+
+MIT License
