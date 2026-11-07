@@ -2,9 +2,13 @@
 
 ## Overview
 
-LiGeo-Perception is a **text-only AI vision engine** that gives language models without image input a trustworthy way to reason about rendered visual output (HTML, SVG, print/PDF, PNG/JPEG) without ever seeing pixels.
+**LiGeo-Perception** is a **text-only AI vision engine** that gives language models without image input a trustworthy way to reason about rendered visual output (HTML, SVG, print/PDF, PNG/JPEG) without ever seeing pixels.
 
-The browser renderer acts as a deterministic query engine — it knows ground-truth geometry, colors, fonts, load-state. LiGeo makes the renderer narrate its own geometry over the DevTools Protocol, converts that into a typed evidence contract, and lets the reasoning model work with structured facts.
+The browser renderer acts as a deterministic query engine — it knows ground-truth geometry, colors, fonts, load-state. LiGeo makes the renderer narrate its own geometry over the Chrome DevTools Protocol (CDP), converts that narration into a typed evidence contract, and lets the reasoning model work with structured facts.
+
+This system is designed for the **AI Engineering Book Series** (an 18-book educational production system) and can be used by any project requiring text-only AI analysis of visual content.
+
+---
 
 ## Quick Start
 
@@ -54,13 +58,15 @@ ocr_result = analyze_ocr("image.png")
 
 # Build complete VIR
 vir = build_vir(
-    layout_data=layout_data,
-    bitmap_data={"file": str(img_path), "record": record, "issues": []},
-    pixel_data={"file": str(img_path), "metrics": metrics, "issues": []},
-    ocr_data={"file": str(img_path), "ocr": ocr_result, "issues": []},
-    asset_id="B01-C03-F01",
-    project_profile="B01",
+    layout_data={"file": str(img_path), "chapter": "C03", "figure": "F01", "status": "RELEASED", "p10_readiness": "APPROVED AS A PLAN"},
+    page_specification={"block_type": "figure", "usage": "used in content", "objects": [{"type": "diagram", "position": {"x": 2079, "y": 2646}}, {"type": "table", "position": [{"x": 0, "y": 0}]}, {"type": "image", "position": [{"x": 0, "y": 0}, {"x": 2079, "y": 0}]}, {"type": "section", "position": {"x": 0, "y": 0}}]},
+    page_width_mm=210,
+    page_height_mm=297,
+    units="mm"
 )
+vir = build_vir(vir)
+print(f"Competency: {vir['competency']}, Bloom: {vir['bloom']}")
+print(f"Quality Gate: {vir['quality_gate']}, Status: {vir['status']}")
 
 # APAI assessment
 apai_result = apai_bitmap.run(vir_path="out/vir.json", rubric="default")
@@ -81,7 +87,7 @@ Every probe returns a typed JSON envelope:
 
 ```json
 {
-  "schema_version": "1.0",
+  "schema_version": "1.0.0",
   "target": "web/posters/poster-2.html",
   "probe": "layout_probe.js",
   "root": {"x": 0, "y": 0, "w": 2079, "h": 2646},
@@ -95,9 +101,9 @@ Every probe returns a typed JSON envelope:
 
 | Tier | Meaning | Usage |
 |------|---------|-------|
-| DETECTED | Direct measurement from renderer/pixel/OCR | Ground truth |
-| DERIVED | Arithmetic on evidence | Requires re-measurement after edits |
-| INTERPRETED | Model hypothesis — human verification required | Must be re-measured |
+| **DETECTED** | Direct measurement from renderer/pixel/OCR | Ground truth |
+| **DERIVED** | Arithmetic on evidence | Requires re-measurement after edits |
+| **INTERPRETED** | Model hypothesis — human verification required | Must be re-measured |
 
 ## Confidence Bands
 
@@ -150,16 +156,15 @@ Use with: `ligo image.png --profile profiles/B01.json --margin-check`
 
 ```
 LiGeo-Perception/
-├── ligo_perception/          # Core Python package
+├── ligo_perception/            # Core Python package
 │   ├── __init__.py
-│   └── cli.py                # CLI entry point
-├── tools/                    # 42 production tools
-│   ├── cdp_runner.py         # CDP browser transport
-│   ├── layout_check.py       | Geometry probes over files/dirs
+│   └── cli.py                  # CLI entry point
+├── tools/                      # 42 production tools
+│   ├── cdp_runner.py           # CDP browser transport
+│   ├── layout_check.py         | Geometry probes over files/dirs
 │   ├── a11y_check.py         | axe-core WCAG + focus probe |
 │   ├── print_check.py        | printToPDF size/page-count assertions |
 │   ├── pdf_check.py          | PDF pages/paper size |
-│   ├── identify.py           | Image identification |
 |   | bitmap_check.py        | PNG/JPEG loader + validation |
 |   | pixel_check.py       | Deterministic pixel metrics (10 categories) |
 |   | ocr_adapter.py         | Tesseract OCR adapter |
